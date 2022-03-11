@@ -4938,5 +4938,160 @@ class Api extends Base_Controller{
 				));	
 
 	}
-	//
+	//以下 bbtruck 用
+	public function bill_list(){
+		$str="select * from bill ";
+		$res=$this->db->query($str)->result_array();
+
+		foreach($res as $r){
+			$data[]=array(
+				'id'		=>	$r['id'],
+				'order_no'		=>	$r['order_no'],
+				'creator'	=>	$r['creator'],
+				'passanger_name'		=>	$r['passanger_name'],
+				'send_city'		=>	$r['send_city'],
+				'recipient_city'		=>	$r['recipient_city']
+
+			);
+
+		}
+		$this->output(TRUE,'取得成功',array(
+			'data'	=>	$data
+		));
+
+	}
+
+	public function bill_order_no(){
+		$name=$this->input->post('name');
+		$id=2;
+
+		$str="select * from bill where id=$id ";
+		$res=$this->db->query($str)->result_array();
+
+		foreach($res as $r){
+			$data[]=array(
+				'id'		=>	$r['id'],
+				'order_no'		=>	$r['order_no'],
+				// 'creator'	=>	$r['creator'],
+				// 'passanger_name'		=>	$r['passanger_name'],
+				// 'send_city'		=>	$r['send_city'],
+				// 'recipient_city'		=>	$r['recipient_city']
+
+			);
+
+		}
+		$this->output(TRUE,'取得成功',array(
+			'data'	=>	$data
+		));
+
+	}
+//取得全部訂單資料
+	public function order_data_list(){
+		$str="select * from order_data ";
+		$res=$this->db->query($str)->result_array();
+
+		foreach($res as $r){
+			$data[]=array(
+				'id'			=>	$r['id'],
+				'order_no'		=>	$r['order_no'],
+				'order_state'	=>	$r['order_state'],
+				'username'		=>	$r['username'],
+				'company'		=>	$r['company'],
+				'country'		=>	$r['country'],
+				'street'		=>	$r['street'],
+				'city'			=>	$r['city'],
+				'state'			=>	$r['state'],
+				'price'			=>	$r['price']
+
+			);
+
+		}
+		$this->output(TRUE,'取得成功',array(
+			'data'	=>	$data
+		));
+
+	}
+//新增訂單並回傳此筆訂單編號 金額 名字
+	public function order_add_list(){
+		// $id=$this->input->post('id');
+		$order_no=date("ymdHis").rand(100,999);
+		$username=$this->input->post('username');
+		$company=$this->input->post('company');
+		$email=$this->input->post('email');
+		$phone=$this->input->post('phone');
+		$country=$this->input->post('country');
+		$street=$this->input->post('street');
+		$city=$this->input->post('city');
+		$state=$this->input->post('state');
+		$price='500';
+		//測試新增資料
+		// $id=2;
+		// $order_no=date("ymdHis").rand(100,999);
+		// $order_no=12345;
+		// $username='john';
+		// $company='test';
+		// $email='test';
+		// $phone='0929';
+		// $country='test';
+		// $street='test';
+		// $city='test';
+		// $state='test';
+		// $price='500';
+		if($username != ""){
+			$add_str="insert into order_data ( order_no, username, company, email, phone, country, street, city, state, price) VALUES ( '$order_no', '$username', '$company','$email','$phone', '$country', '$street', '$city', '$state','$price')";
+			$res=$this->db->query($add_str);
+			$str="select * from order_data  where username='$username'";
+			$res=$this->db->query($str)->result_array();
+
+			foreach($res as $r){
+				$data[]=array(
+					// 'id'			=>	$r['id'],
+					'order_no'		=>	$r['order_no'],
+					'username'		=>	$r['username'],
+					// 'company'		=>	$r['company'],
+					// 'email'			=>  $r['email'],
+					// 'phone'			=>  $r['phone'],
+					// 'country'		=>	$r['country'],
+					// 'street'		=>	$r['street'],
+					// 'city'			=>	$r['city'],
+					// 'state'			=>	$r['state'],
+					'price'			=>	$r['price']
+
+				);
+
+			}
+			$this->output(TRUE,'新增成功',array(
+				'data'	=>	$data
+			));
+		}else{
+			$this->output(FALSE, "新增失敗");
+			
+		}
+
+	}
+
+	public function schedule_data_list(){
+		$str="select * from schedule ";
+		$res=$this->db->query($str)->result_array();
+
+		foreach($res as $r){
+			$data[]=array(
+				'id'				=>	$r['id'],
+				'driver_id'			=>	$r['driver_id'],
+				'type'				=>	$r['type'],
+				'reserve_time'		=>	$r['reserve_time'],
+				'send_city'			=>	$r['send_city'],
+				'send_address'		=>	$r['send_address'],
+				'recipient_city'	=>	$r['recipient_city'],
+				'recipient_address'		=>	$r['recipient_address'],
+
+			);
+
+		}
+		$this->output(TRUE,'取得成功',array(
+			'data'	=>	$data
+		));
+
+	}
+	
 }
